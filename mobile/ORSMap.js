@@ -36,6 +36,7 @@ const ORSMap = () => {
 
   return (
     <View style={styles.container}>
+
       <MapView
         style={styles.map}
         initialRegion={{
@@ -63,11 +64,14 @@ const ORSMap = () => {
           />
         )}
       </MapView>
-      <Button
-        title="Calculate Route"
-        onPress={calculateRoute}
-        disabled={!origin || !destination}
-      />
+
+      <View style={{ position: 'absolute', top: '70.5%', width: '100%' }}>
+        <Button
+          title="Calculate Route"
+          onPress={calculateRoute}
+          disabled={!origin || !destination}
+        />
+      </View>
     </View>
   );
 };
