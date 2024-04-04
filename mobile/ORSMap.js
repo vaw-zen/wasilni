@@ -65,13 +65,13 @@ const ORSMap = () => {
         )}
       </MapView>
 
-      <View style={{ position: 'absolute', top: '70.5%', width: '100%' }}>
+      {/* <View style={{ position: 'absolute', top: '70.5%', width: '100%' }}>
         <Button
           title="Calculate Route"
           onPress={calculateRoute}
           disabled={!origin || !destination}
         />
-      </View>
+      </View> */}
     </View>
   );
 };
