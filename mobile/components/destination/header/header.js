@@ -4,8 +4,8 @@ import styles from './header.styles';
 import { states } from '../../store';
 
 export default function Header() {
-    const { vw, vh } = states()
-    const style = styles(vw, vh)
+    const { vw, vh, activeInput } = states()
+    const style = styles(vw, vh, activeInput)
 
     return (
         <View style={style.header_wrapper}>

@@ -7,12 +7,12 @@ const updateState = (set, stateKey, value) => {
     }));
 };
 
-const dimensions_refs = () => {
-    const vw = createRef();
-    const vh = createRef();
-    return { vw: vw.current, vh: vh.current };
+const locations_refs = () => {
+    const from = createRef();
+    const to = createRef();
+    return { from, to };
 };
-export const dimensions = dimensions_refs();
+export const locations = locations_refs();
 
 
 export const states = create((set) => ({
@@ -22,4 +22,8 @@ export const states = create((set) => ({
     setVW: (v) => updateState(set, 'vw', v),
     vh: 0,
     setVH: (v) => updateState(set, 'vh', v),
+    activeInput: 0,
+    setActiveInput: (v) => updateState(set, 'activeInput', v),
+    search: 0,
+    setSearch: (v) => updateState(set, 'search', v),
 }));

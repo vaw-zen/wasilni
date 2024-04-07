@@ -1,13 +1,11 @@
 import { View, Text, Pressable } from "react-native";
-import { states } from "../store";
+import { locations, states } from "../store";
 import Header from "./header/header";
-import React, { useRef } from 'react';
 import Search from "./search/search";
 
 export default function Destination() {
     const { vw, vh } = states()
-    const from = useRef();
-    const to = useRef();
+    const { from, to } = locations
     return (
         <>
             <Pressable onPressIn={() => {
@@ -35,7 +33,7 @@ export default function Destination() {
                 }
             }} style={{ position: 'absolute', width: '100%', height: '58%', top: '5%', paddingHorizontal: '4%' }}>
                 <Header />
-                <Search from={from} to={to} />
+                <Search />
                 <View style={{ width: '100%', height: '15%', justifyContent: 'center' }}>
                     <Text style={{ fontFamily: 'Montserrat', fontWeight: 900, fontSize: vw * 0.05 }}>Stations Near You</Text>
                 </View>

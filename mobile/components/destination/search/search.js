@@ -1,12 +1,12 @@
 import { View } from 'react-native';
-import { states } from '../../store';
 import Input from './input';
+import { locations, states } from '../../store';
 
-export default function Search({ from, to }) {
+export default function Search() {
     const { vw, vh } = states();
+        const { from, to } =   locations
     return (
         <View
-
             style={{ zIndex: 1, width: '100%', height: '52%', backgroundColor: 'white', borderRadius: vw * 0.04, padding: '7.5%' }}
         >
             <View style={{ flex: 1 }}>
