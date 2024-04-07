@@ -3,7 +3,7 @@ import Input from './input';
 import { locations, states } from '../../store';
 
 export default function Search() {
-    const { vw, vh } = states();
+    const { vw, vh, } = states();
         const { from, to } =   locations
     return (
         <View

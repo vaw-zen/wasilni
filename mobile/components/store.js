@@ -10,7 +10,8 @@ const updateState = (set, stateKey, value) => {
 const locations_refs = () => {
     const from = createRef();
     const to = createRef();
-    return { from, to };
+    const activeInput = createRef()
+    return { from, to, activeInput };
 };
 export const locations = locations_refs();
 
@@ -22,8 +23,9 @@ export const states = create((set) => ({
     setVW: (v) => updateState(set, 'vw', v),
     vh: 0,
     setVH: (v) => updateState(set, 'vh', v),
-    activeInput: 0,
-    setActiveInput: (v) => updateState(set, 'activeInput', v),
+    inputRerender: false,
+    setInputRender: (v) => updateState(set, 'inputRerender', v),
     search: 0,
     setSearch: (v) => updateState(set, 'search', v),
 }));
+

@@ -1,6 +1,8 @@
+import { locations } from "../../store";
 
-export default styles = (vw, vh, inputIsActive) => ({
-    header_wrapper: { width: '100%', height: inputIsActive ? 0 : '25%', borderTopLeftRadius: vw * 0.04, borderTopRightRadius: vw * 0.04, overflow: 'hidden' },
+const { activeInput } = locations
+export default styles = (vw, vh) => ({
+    header_wrapper: { width: '100%', height: activeInput.current ? 0 : '25%', borderTopLeftRadius: vw * 0.04, borderTopRightRadius: vw * 0.04, overflow: 'hidden' },
     header_container: { height: '80%', width: '100%', display: 'flex', flexDirection: 'row', overflow: 'hidden', alignItems: 'center' },
     header_imgContainer: { height: vh * 0.063, width: vh * 0.063, backgroundColor: '#c4c4c4', borderRadius: vw * 0.04 },
     header_textContainer: { flex: 1, paddingHorizontal: '5%' },

@@ -1,16 +1,15 @@
 import React, { useRef, useState } from 'react';
 import { View, TextInput, Text, ScrollView, Pressable, TouchableOpacity } from 'react-native';
 import axios from 'axios'
-import { states } from '../../store';
+import { states, locations } from '../../store';
 
 export default function Input({ inputRef, vw, vh, start }) {
-    const [locations, setLocations] = useState([])
     const inputValue = useRef('');
-    const { activeInput, setActiveInput } = states()
-    console.log(activeInput)
+    const { setInputRender, search, setSearch } = states()
+    const { activeInput } = locations
     return (
         <View style={{
-            flex: 1, justifyContent: 'center',
+            flex: activeInput === 2 ? 0 : 1, justifyContent: 'center', overflow: 'hidden'
         }}>
             <Text style={{ fontSize: vw * 0.03, fontWeight: 'bold', color: '#c4c4c4' }}>
                 {start ? 'Starting location' : 'Destination Location'}
@@ -21,25 +20,24 @@ export default function Input({ inputRef, vw, vh, start }) {
                     style={{ height: 40, borderColor: 'gray', fontWeight: 'bold', height: vw * 0.11 }}
                     onChangeText={text => {
                         inputValue.current = text;
-                        autocomplete(text, setLocations);
+                        autocomplete(text, setSearch);
                     }}
                     placeholder={start ? 'Your Current Location' : 'Select Your Destination Location'}
                     onBlur={() => {
-                        if (!inputValue.current || !locations.length) {
-                            setActiveInput(previous => {
-                                setTimeout(() => {
-                                    if (start && previous !== 1) {
-                                        return previous
-                                    } else {
-                                        return 0
-                                    }
+                        if (!inputValue.current || !search.length) {
+                            setTimeout(() => {
+                                if (start && activeInput.current === 1) {
+                                    handleInput(setInputRender, activeInput, 0)
 
-                                }, 500)
-                                return previous
-                            })
+                                } else if (!start && activeInput.current === 2) {
+                                    handleInput(setInputRender, activeInput, 0)
+                                }else if (activeInput === 0){
+                                    handleInput(setInputRender, activeInput, 0)
+                                }
+                            }, 0)
                         }
                     }}
-                    onFocus={() => setActiveInput(start ? 1 : 2)}
+                    onFocus={() => handleInput(setInputRender, activeInput, start ? 1 : 2)}
                 />
             </View>
             {/* {!activeInput || start && activeInput !== 1 ? null : (
@@ -50,8 +48,8 @@ export default function Input({ inputRef, vw, vh, start }) {
                 }}>
                     <ScrollView style={{ flexGrow: 1, flexShrink: 1 }}>
 
-                        {locations.map((e, index) => (
-                            <TouchableOpacity onPress={() => setActiveInput(0)} key={index} style={{
+                        {search.map((e, index) => (
+                            <TouchableOpacity onPress={() => setInputRender(p=>!p)} key={index} style={{
                                 width: '100%', height: vh * 0.12,
                                 borderBottomWidth: 1, borderBottomColor: '#c4c4c4', justifyContent: 'center', alignItems: 'center'
                             }}>
@@ -66,9 +64,12 @@ export default function Input({ inputRef, vw, vh, start }) {
 }
 
 
+const handleInput = (setInputRender, activeInput, current) => {
+    activeInput.current = current
+    setInputRender(p => !p)
+}
 
-
-const autocomplete = async (input, setLocations) => {
+const autocomplete = async (input, setSearch) => {
     try {
         const encodedInput = encodeURIComponent(input);
         const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${encodedInput}&format=json&addressdetails=1&polygon_geojson=0&countrycodes=TN&viewbox=10.0718,36.6507,10.3523,36.9168&limit=3`);
@@ -77,9 +78,9 @@ const autocomplete = async (input, setLocations) => {
             latitude: parseFloat(place.lat),
             longitude: parseFloat(place.lon),
         }))
-        setLocations(result)
+        setSearch(result)
     } catch (error) {
         console.error('Error fetching autocomplete results:', error);
-        setLocations([]);
+        setSearch([]);
     }
 };
